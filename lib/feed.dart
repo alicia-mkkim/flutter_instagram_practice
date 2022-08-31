@@ -1,11 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Feed extends StatelessWidget {
+class Feed extends StatefulWidget {
   const Feed({
     Key? key,
+    required this.imageUrl,
   }) : super(key: key);
 
+  final String imageUrl;
+
+  @override
+  State<Feed> createState() => _FeedState();
+}
+
+class _FeedState extends State<Feed> {
+  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,7 +22,7 @@ class Feed extends StatelessWidget {
       children: [
         // 이미지
         Image.network(
-          "https://cdn2.thecatapi.com/images/kat_7kqBi.png",
+          widget.imageUrl, // 10번째 줄의 imageUrl 가져오기
           height: 400,
           width: double.infinity,
           fit: BoxFit.cover,
@@ -22,9 +31,13 @@ class Feed extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                print('heart btn is clicked');
+                setState(() {
+                  isFavorite = !isFavorite;
+                });
               },
-              icon: Icon(CupertinoIcons.heart),
+              icon: isFavorite
+                  ? Icon(CupertinoIcons.heart, color: Colors.black)
+                  : Icon(CupertinoIcons.heart_fill, color: Colors.pinkAccent),
             ),
             IconButton(
               onPressed: () {
